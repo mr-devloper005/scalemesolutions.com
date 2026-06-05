@@ -7,7 +7,6 @@ import { buildPostUrl, fetchArticleComments, fetchTaskPostBySlug, fetchTaskPosts
 import { getTaskConfig, SITE_CONFIG, type TaskKey } from '@/lib/site-config'
 import type { SitePost } from '@/lib/site-connector'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
-import { getVisualPreset, visualSystem } from '@/editable/theme/visual-system'
 
 export const revalidate = 3
 
@@ -105,8 +104,7 @@ const mapSrcFor = (post: SitePost) => {
 }
 
 export function TaskDetailView({ task, post, related, comments = [] }: { task: TaskKey; post: SitePost; related: SitePost[]; comments?: Array<{ id: string; name: string; comment: string; createdAt: string }> }) {
-  const preset = getVisualPreset(visualSystem.recommendedPreset as any)
-  const detailVars = { '--detail-bg': preset.colors.background, '--detail-text': preset.colors.foreground, '--detail-surface': preset.colors.surface, '--detail-accent': preset.colors.accent } as CSSProperties
+  const detailVars = { '--detail-bg': '#fbfbfc', '--detail-text': '#221f2b', '--detail-surface': '#ffffff', '--detail-accent': '#5f35b2' } as CSSProperties
 
   return (
     <EditableSiteShell>
@@ -126,7 +124,7 @@ export function TaskDetailView({ task, post, related, comments = [] }: { task: T
 function BackLink({ task }: { task: TaskKey }) {
   const taskConfig = getTaskConfig(task)
   return (
-    <Link href={taskConfig?.route || '/'} className="inline-flex items-center gap-2 rounded-full border border-[var(--editable-border)] bg-white/70 px-4 py-2 text-sm font-black">
+    <Link href={taskConfig?.route || '/'} className="inline-flex items-center gap-2 rounded-full border border-[var(--editable-border)] bg-white px-4 py-2 text-sm font-black">
       <ArrowLeft className="h-4 w-4" /> Back to {taskConfig?.label || 'posts'}
     </Link>
   )
@@ -158,27 +156,84 @@ function ListingDetail({ post, related }: { post: SitePost; related: SitePost[] 
   const website = getField(post, ['website', 'url'])
   const mapSrc = mapSrcFor(post)
   return (
-    <section className="mx-auto max-w-[var(--editable-container)] px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
+    <section className="mx-auto max-w-[var(--editable-container)] px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
       <BackLink task="listing" />
-      <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
-        <article className="rounded-[2.8rem] border border-[var(--editable-border)] bg-white p-6 shadow-[0_30px_90px_rgba(15,23,42,0.09)] sm:p-9">
-          <div className="grid gap-6 sm:grid-cols-[150px_1fr]">
-            <div className="flex h-36 w-36 items-center justify-center overflow-hidden rounded-[2rem] bg-[var(--detail-bg)] ring-1 ring-[var(--editable-border)]">
-              {logo ? <img src={logo} alt="" className="h-full w-full object-cover" /> : <Building2 className="h-14 w-14 opacity-40" />}
-            </div>
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--detail-accent)]">Business listing</p>
-              <h1 className="mt-3 text-4xl font-black leading-[0.98] tracking-[-0.07em] sm:text-6xl">{post.title}</h1>
-              <p className="mt-5 max-w-3xl text-base leading-8 opacity-70">{summaryText(post)}</p>
+        <div className="mt-8 overflow-hidden rounded-lg border border-[var(--editable-border)] bg-white shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+          <div className="relative min-h-[280px] bg-[#dedee3]">
+            <div className="absolute left-10 top-8 h-24 w-48 rotate-[-32deg] bg-white/70" />
+            <div className="absolute right-16 top-8 h-28 w-28 rounded-full border-[28px] border-white/80" />
+
+            <div className="flex min-h-[280px] items-center bg-white/88 px-5 py-8 backdrop-blur sm:px-8">
+              <div className="grid w-full gap-10 sm:grid-cols-[136px_1fr] items-center">
+                
+                <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-md bg-[#f7f7fa] ring-1 ring-[var(--editable-border)]">
+                  {logo ? (
+                    <img
+                      src={logo}
+                      alt=""
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <Building2 className="h-14 w-14 opacity-40" />
+                  )}
+                </div>
+
+                <div className="flex flex-col justify-center">
+                  <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--detail-accent)]">
+                    Business listing
+                  </p>
+
+                  <h1 className="mt-3 text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+                    {post.title}
+                  </h1>
+
+                  <div className="mt-4 flex flex-wrap items-center gap-3 text-sm font-bold">
+                    <span className="text-[#ff4b36]">★★★★★</span>
+                    <span>4.8 profile score</span>
+
+                    {address ? (
+                      <span className="inline-flex items-center gap-1 text-[#555162]">
+                        <MapPin className="h-4 w-4" />
+                        {address}
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
+
+              </div>
             </div>
           </div>
-          <InfoGrid items={[['Location', address, MapPin], ['Phone', phone, Phone], ['Email', email, Mail], ['Website', website, Globe2]]} />
-          <BodyContent post={post} />
+        </div>
+      <div className="mt-6 grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)_330px]">
+        <aside className="rounded-lg border border-[var(--editable-border)] bg-white p-5 shadow-sm lg:sticky lg:top-24 lg:self-start">
+          {['Product Information',].map((item, index) => <a key={item} href={index === 0 ? '#overview' : '#details'} className={`block border-b border-[var(--editable-border)] py-3 text-sm font-black ${index === 0 ? 'text-[#5f35b2]' : 'text-[#555162]'}`}>{item}</a>)}
+          <Link href="/contact" className="mt-5 inline-flex text-sm font-black text-[#5f35b2]">Leave a review</Link>
+        </aside>
+        <article id="overview" className="space-y-6">
+          <div className="rounded-lg border border-[var(--editable-border)] bg-[#f4f0ff] p-6 shadow-sm sm:flex sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-2xl font-black tracking-tight">Compare this with other businesses</h2>
+              <p className="mt-1 text-sm font-semibold text-[#555162]">Save it to your shortlist and evaluate providers side by side.</p>
+            </div>
+            <Link href="/search" className="mt-4 inline-flex rounded-full bg-[#5f35b2] px-5 py-3 text-sm font-black text-white sm:mt-0">Search similar</Link>
+          </div>
+          <section className="rounded-lg border border-[var(--editable-border)] bg-white p-6 shadow-sm">
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="text-2xl font-black tracking-tight">{post.title} Reviews & Business Details</h2>
+              <span className="inline-flex items-center gap-1 text-xs font-black text-emerald-600"><CheckCircle2 className="h-4 w-4" /> Claimed</span>
+            </div>
+            
+            <BodyContent post={post} />
+          </section>
+          <section id="details" className="rounded-lg border border-[var(--editable-border)] bg-white p-6 shadow-sm">
+            <h2 className="text-2xl font-black tracking-tight">Value at a glance</h2>
+            <InfoGrid items={[['Location', address, MapPin], ['Phone', phone, Phone], ['Email', email, Mail], ['Website', website, Globe2]]} />
+          </section>
           <ImageStrip images={images.slice(1)} label="Business showcase" />
         </article>
         <aside className="space-y-5">
-          {mapSrc ? <MapBox src={mapSrc} label={address || post.title} /> : <ContactAction website={website} phone={phone} email={email} />}
-          {mapSrc ? <ContactAction website={website} phone={phone} email={email} /> : null}
+          <ContactAction website={website} phone={phone} email={email} />
+          {mapSrc ? <MapBox src={mapSrc} label={address || post.title} /> : null}
           <RelatedPanel task="listing" post={post} related={related} compact />
         </aside>
       </div>
@@ -385,7 +440,6 @@ function RelatedPanel({ task, post, related, compact = false }: { task: TaskKey;
           <div className="mt-4 grid gap-3 text-sm font-bold opacity-75">
             <p className="inline-flex items-center gap-2"><Tag className="h-4 w-4" /> Task: {taskConfig?.label || task}</p>
             <p className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> Site: {SITE_CONFIG.name}</p>
-            {post.publishedAt ? <p>Published: {new Date(post.publishedAt).toLocaleDateString()}</p> : null}
           </div>
         </div>
       ) : null}

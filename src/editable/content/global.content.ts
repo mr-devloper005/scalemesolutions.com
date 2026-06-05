@@ -8,11 +8,12 @@ export const globalContent = {
     baseUrl: slot4BrandConfig.baseUrl,
   },
   nav: {
-    tagline: 'Independent reading platform',
+    tagline: 'Verified business directory',
     primaryLinks: [
-      { label: 'Articles', href: '/articles' },
-      { label: 'Visuals', href: '/image-sharing' },
       { label: 'Listings', href: '/listings' },
+      { label: 'Categories', href: '/listing' },
+      { label: 'Add business', href: '/create' },
+      { label: 'About', href: '/about' },
       { label: 'Contact', href: '/contact' },
     ],
     actions: {
@@ -21,16 +22,16 @@ export const globalContent = {
     },
   },
   footer: {
-    tagline: 'Stories, resources, and discoverable posts',
-    description: 'A connected publishing surface for articles, visuals, listings, profiles, bookmarks, and downloadable resources.',
+    tagline: 'Business discovery made simpler',
+    description: 'Compare companies, explore local services, and create trusted business listings with clearer details, richer profiles, and practical contact paths.',
     columns: [
       {
         title: 'Explore',
         links: [
-          { label: 'Articles', href: '/articles' },
           { label: 'Listings', href: '/listings' },
-          { label: 'Images', href: '/image-sharing' },
-          { label: 'PDF Library', href: '/pdf' },
+          { label: 'Business Archive', href: '/listing' },
+          { label: 'Search Businesses', href: '/search' },
+          { label: 'Add a Listing', href: '/create' },
         ],
       },
       {
@@ -41,7 +42,7 @@ export const globalContent = {
         ],
       },
     ],
-    bottomNote: 'Built for clean discovery and connected publishing.',
+    bottomNote: 'Built for focused business discovery and listing growth.',
   },
   commonLabels: {
     readMore: 'Read more',
