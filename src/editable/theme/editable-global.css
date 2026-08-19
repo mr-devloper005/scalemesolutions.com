@@ -19,7 +19,7 @@ body {
 
 :root {
   --editable-container: 1180px;
-  --editable-border: rgba(36, 35, 46, 0.14);
+  --editable-border: rgba(0, 0, 0, 0.14);
   --editable-page-bg: var(--slot4-page-bg);
   --editable-page-text: var(--slot4-page-text);
 }

@@ -24,7 +24,7 @@ export async function EditableTaskDetailRoute({ task, params }: { task: TaskKey;
   if (!post) notFound()
   const related = (await fetchTaskPosts(task, 7)).filter((item) => item.slug !== post.slug).slice(0, 4)
   const comments = task === 'article' ? await fetchArticleComments(post.slug, 50) : []
-  return <TaskDetailView task={task} post={post} related={related} comments={comments} />
+  return <TaskDetailView task={task} related={related} comments={comments} />
 }
 
 const getContent = (post: SitePost) => post.content && typeof post.content === 'object' ? post.content as Record<string, unknown> : {}
@@ -92,7 +92,11 @@ const formatPlainText = (raw: string) => {
     .join('')
 }
 
-const summaryText = (post: SitePost) => post.summary || asText(getContent(post).description) || asText(getContent(post).excerpt) || ''
+const stripTags = (value: string) => value
+  .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+  .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, ' ')
+  .replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+const summaryText = (post: SitePost) => stripTags(post.summary || asText(getContent(post).description) || asText(getContent(post).excerpt) || '')
 const categoryOf = (post: SitePost, fallback: string) => asText(getContent(post).category) || post.tags?.[0] || fallback
 const mapSrcFor = (post: SitePost) => {
   const address = getField(post, ['address', 'location', 'city'])
@@ -104,18 +108,18 @@ const mapSrcFor = (post: SitePost) => {
 }
 
 export function TaskDetailView({ task, post, related, comments = [] }: { task: TaskKey; post: SitePost; related: SitePost[]; comments?: Array<{ id: string; name: string; comment: string; createdAt: string }> }) {
-  const detailVars = { '--detail-bg': '#fbfbfc', '--detail-text': '#221f2b', '--detail-surface': '#ffffff', '--detail-accent': '#5f35b2' } as CSSProperties
+  const detailVars = { '--detail-bg': '#fff7f5', '--detail-text': '#221f2b', '--detail-surface': '#ffffff', '--detail-accent': '#5f35b2' } as CSSProperties
 
   return (
     <EditableSiteShell>
       <main style={detailVars} className="bg-[var(--detail-bg)] text-[var(--detail-text)]">
-        {task === 'listing' ? <ListingDetail post={post} related={related} /> : null}
-        {task === 'classified' ? <ClassifiedDetail post={post} related={related} /> : null}
-        {task === 'image' ? <ImageDetail post={post} related={related} /> : null}
-        {task === 'sbm' ? <BookmarkDetail post={post} related={related} /> : null}
-        {task === 'pdf' ? <PdfDetail post={post} related={related} /> : null}
-        {task === 'profile' ? <ProfileDetail post={post} related={related} /> : null}
-        {task === 'article' ? <ArticleDetail post={post} related={related} comments={comments} /> : null}
+        {task === 'listing' ? <ListingDetail related={related} /> : null}
+        {task === 'classified' ? <ClassifiedDetail related={related} /> : null}
+        {task === 'image' ? <ImageDetail related={related} /> : null}
+        {task === 'sbm' ? <BookmarkDetail related={related} /> : null}
+        {task === 'pdf' ? <PdfDetail related={related} /> : null}
+        {task === 'profile' ? <ProfileDetail related={related} /> : null}
+        {task === 'article' ? <ArticleDetail related={related} comments={comments} /> : null}
       </main>
     </EditableSiteShell>
   )
@@ -134,7 +138,7 @@ function ArticleDetail({ post, related, comments }: { post: SitePost; related: S
   const images = getImages(post)
   return (
     <section className="mx-auto grid max-w-[var(--editable-container)] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_350px] lg:px-8 lg:py-16">
-      <article className="min-w-0 rounded-[2.7rem] border border-[var(--editable-border)] bg-[var(--detail-surface)] p-5 shadow-[0_30px_90px_rgba(15,23,42,0.09)] sm:p-8 lg:p-12">
+      <article className="min-w-0 rounded-[2.7rem] border border-[var(--editable-border)] bg-[var(--detail-surface)] p-5 shadow-[0_30px_90px_rgba(0,0,0,0.09)] sm:p-8 lg:p-12">
         <BackLink task="article" />
         <p className="mt-8 text-xs font-black uppercase tracking-[0.28em] text-[var(--detail-accent)]">{categoryOf(post, 'Article')}</p>
         <h1 className="mt-4 text-4xl font-black leading-[0.98] tracking-[-0.07em] sm:text-5xl lg:text-7xl">{post.title}</h1>
@@ -142,7 +146,7 @@ function ArticleDetail({ post, related, comments }: { post: SitePost; related: S
         <BodyContent post={post} />
         <EditableComments slug={post.slug} comments={comments} />
       </article>
-      <RelatedPanel task="article" post={post} related={related} />
+      <RelatedPanel task="article" related={related} />
     </section>
   )
 }
@@ -158,8 +162,8 @@ function ListingDetail({ post, related }: { post: SitePost; related: SitePost[] 
   return (
     <section className="mx-auto max-w-[var(--editable-container)] px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
       <BackLink task="listing" />
-        <div className="mt-8 overflow-hidden rounded-lg border border-[var(--editable-border)] bg-white shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-          <div className="relative min-h-[280px] bg-[#dedee3]">
+        <div className="mt-8 overflow-hidden rounded-lg border border-[var(--editable-border)] bg-white shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+          <div className="relative min-h-[280px] bg-[#f2eef8]">
             <div className="absolute left-10 top-8 h-24 w-48 rotate-[-32deg] bg-white/70" />
             <div className="absolute right-16 top-8 h-28 w-28 rounded-full border-[28px] border-white/80" />
 
@@ -220,7 +224,7 @@ function ListingDetail({ post, related }: { post: SitePost; related: SitePost[] 
           <section className="rounded-lg border border-[var(--editable-border)] bg-white p-6 shadow-sm">
             <div className="flex items-center justify-between gap-3">
               <h2 className="text-2xl font-black tracking-tight">{post.title} Reviews & Business Details</h2>
-              <span className="inline-flex items-center gap-1 text-xs font-black text-emerald-600"><CheckCircle2 className="h-4 w-4" /> Claimed</span>
+              <span className="inline-flex items-center gap-1 text-xs font-black text-[#11c5b7]"><CheckCircle2 className="h-4 w-4" /> Claimed</span>
             </div>
             
             <BodyContent post={post} />
@@ -234,7 +238,7 @@ function ListingDetail({ post, related }: { post: SitePost; related: SitePost[] 
         <aside className="space-y-5">
           <ContactAction website={website} phone={phone} email={email} />
           {mapSrc ? <MapBox src={mapSrc} label={address || post.title} /> : null}
-          <RelatedPanel task="listing" post={post} related={related} compact />
+          <RelatedPanel task="listing" related={related} compact />
         </aside>
       </div>
     </section>
@@ -265,11 +269,11 @@ function ClassifiedDetail({ post, related }: { post: SitePost; related: SitePost
           {email ? <a href={`mailto:${email}`} className="rounded-full border border-white/25 px-5 py-3 text-sm font-black">Email</a> : null}
         </div>
       </aside>
-      <article className="rounded-[2.7rem] border border-[var(--editable-border)] bg-white p-6 shadow-[0_30px_90px_rgba(15,23,42,0.08)] sm:p-9">
+      <article className="rounded-[2.7rem] border border-[var(--editable-border)] bg-white p-6 shadow-[0_30px_90px_rgba(0,0,0,0.08)] sm:p-9">
         <ImageStrip images={images} label="Offer images" large />
         <BodyContent post={post} />
         <ContactAction website={website} phone={phone} email={email} />
-        <RelatedPanel task="classified" post={post} related={related} />
+        <RelatedPanel task="classified" related={related} />
       </article>
     </section>
   )
@@ -296,7 +300,7 @@ function ImageDetail({ post, related }: { post: SitePost; related: SitePost[] })
           ))}
         </div>
       </div>
-      <div className="mt-10"><RelatedPanel task="image" post={post} related={related} /></div>
+      <div className="mt-10"><RelatedPanel task="image" related={related} /></div>
     </section>
   )
 }
@@ -305,7 +309,7 @@ function BookmarkDetail({ post, related }: { post: SitePost; related: SitePost[]
   const website = getField(post, ['website', 'url', 'link'])
   return (
     <section className="mx-auto grid max-w-[var(--editable-container)] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:px-8 lg:py-16">
-      <article className="rounded-[2.7rem] border border-[var(--editable-border)] bg-white p-7 shadow-[0_30px_90px_rgba(15,23,42,0.08)] sm:p-10">
+      <article className="rounded-[2.7rem] border border-[var(--editable-border)] bg-white p-7 shadow-[0_30px_90px_rgba(0,0,0,0.08)] sm:p-10">
         <BackLink task="sbm" />
         <div className="mt-10 flex h-20 w-20 items-center justify-center rounded-[2rem] bg-[var(--detail-text)] text-[var(--detail-bg)]"><Bookmark className="h-9 w-9" /></div>
         <h1 className="mt-7 text-4xl font-black leading-[0.98] tracking-[-0.07em] sm:text-6xl">{post.title}</h1>
@@ -313,7 +317,7 @@ function BookmarkDetail({ post, related }: { post: SitePost; related: SitePost[]
         {website ? <Link href={website} target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[var(--detail-text)] px-5 py-3 text-sm font-black text-[var(--detail-bg)]">Open saved resource <ExternalLink className="h-4 w-4" /></Link> : null}
         <BodyContent post={post} />
       </article>
-      <RelatedPanel task="sbm" post={post} related={related} />
+      <RelatedPanel task="sbm" related={related} />
     </section>
   )
 }
@@ -322,7 +326,7 @@ function PdfDetail({ post, related }: { post: SitePost; related: SitePost[] }) {
   const fileUrl = getField(post, ['fileUrl', 'pdfUrl', 'documentUrl', 'url'])
   return (
     <section className="mx-auto grid max-w-[var(--editable-container)] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:px-8 lg:py-16">
-      <article className="rounded-[2.7rem] border border-[var(--editable-border)] bg-white p-6 shadow-[0_30px_90px_rgba(15,23,42,0.08)] sm:p-9">
+      <article className="rounded-[2.7rem] border border-[var(--editable-border)] bg-white p-6 shadow-[0_30px_90px_rgba(0,0,0,0.08)] sm:p-9">
         <BackLink task="pdf" />
         <div className="mt-8 grid gap-6 sm:grid-cols-[120px_1fr]">
           <div className="flex h-28 w-28 items-center justify-center rounded-[1.8rem] bg-[var(--detail-text)] text-[var(--detail-bg)]"><FileText className="h-12 w-12" /></div>
@@ -342,7 +346,7 @@ function PdfDetail({ post, related }: { post: SitePost; related: SitePost[] }) {
           </div>
         ) : null}
       </article>
-      <RelatedPanel task="pdf" post={post} related={related} />
+      <RelatedPanel task="pdf" related={related} />
     </section>
   )
 }
@@ -354,7 +358,7 @@ function ProfileDetail({ post, related }: { post: SitePost; related: SitePost[] 
   const email = getField(post, ['email'])
   return (
     <section className="mx-auto grid max-w-[var(--editable-container)] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[420px_minmax(0,1fr)] lg:px-8 lg:py-16">
-      <aside className="rounded-[2.7rem] border border-[var(--editable-border)] bg-white p-8 text-center shadow-[0_30px_90px_rgba(15,23,42,0.08)] lg:sticky lg:top-24 lg:self-start">
+      <aside className="rounded-[2.7rem] border border-[var(--editable-border)] bg-white p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.08)] lg:sticky lg:top-24 lg:self-start">
         <BackLink task="profile" />
         <div className="mx-auto mt-10 flex h-40 w-40 items-center justify-center overflow-hidden rounded-full bg-[var(--detail-bg)] ring-1 ring-[var(--editable-border)]">
           {images[0] ? <img src={images[0]} alt="" className="h-full w-full object-cover" /> : <UserRound className="h-16 w-16 opacity-45" />}
@@ -366,7 +370,7 @@ function ProfileDetail({ post, related }: { post: SitePost; related: SitePost[] 
       <article className="rounded-[2.7rem] border border-[var(--editable-border)] bg-white p-7 shadow-sm sm:p-10">
         <BodyContent post={post} />
         <ImageStrip images={images.slice(1)} label="Profile gallery" />
-        <RelatedPanel task="profile" post={post} related={related} />
+        <RelatedPanel task="profile" related={related} />
       </article>
     </section>
   )
@@ -430,7 +434,7 @@ function BadgeLine({ label, value }: { label: string; value: string }) {
   return <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm"><span className="font-black uppercase tracking-[0.16em] opacity-60">{label}</span><span className="font-black">{value}</span></div>
 }
 
-function RelatedPanel({ task, post, related, compact = false }: { task: TaskKey; post: SitePost; related: SitePost[]; compact?: boolean }) {
+function RelatedPanel({ task, related, compact = false }: { task: TaskKey; related: SitePost[]; compact?: boolean }) {
   const taskConfig = getTaskConfig(task)
   return (
     <aside className="min-w-0 space-y-5">

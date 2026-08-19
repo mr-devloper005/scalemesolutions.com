@@ -12,7 +12,7 @@ export function EditableNavbar() {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
   const { session, logout } = useEditableLocalAuthSession()
-  const navVars = { '--editable-nav-bg': '#fffaf9', '--editable-nav-text': '#221f2b', '--editable-nav-active': '#5f35b2', '--editable-nav-active-text': '#ffffff', '--editable-cta-bg': '#5f35b2', '--editable-cta-text': '#ffffff', '--editable-search-bg': '#ffffff', '--editable-border': 'rgba(36,35,46,0.14)', '--editable-container': '1180px' } as CSSProperties
+  const navVars = { '--editable-nav-bg': '#fff7f5', '--editable-nav-text': '#221f2b', '--editable-nav-active': '#5f35b2', '--editable-nav-active-text': '#ffffff', '--editable-cta-bg': '#5f35b2', '--editable-cta-text': '#ffffff', '--editable-search-bg': '#ffffff', '--editable-border': 'rgba(0,0,0,0.14)', '--editable-container': '1180px' } as CSSProperties
   const navItems = useMemo(
     () => SITE_CONFIG.tasks.filter((task) => task.enabled).map((task) => ({ label: task.label, href: task.route })),
     []

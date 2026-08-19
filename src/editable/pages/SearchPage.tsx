@@ -20,8 +20,11 @@ export async function generateMetadata(): Promise<Metadata> {
   })
 }
 
-const stripHtml = (value: string) => value.replace(/<[^>]*>/g, ' ')
-const compactText = (value: unknown) => typeof value === 'string' ? stripHtml(value).replace(/\s+/g, ' ').trim().toLowerCase() : ''
+const stripTags = (value: string) => value
+  .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+  .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, ' ')
+  .replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+const compactText = (value: unknown) => typeof value === 'string' ? stripTags(value).toLowerCase() : ''
 const getContent = (post: SitePost) => post.content && typeof post.content === 'object' ? post.content as Record<string, unknown> : {}
 const getImage = (post: SitePost) => {
   const content = getContent(post)
@@ -30,7 +33,7 @@ const getImage = (post: SitePost) => {
   return media || compactRaw(content.featuredImage) || compactRaw(content.image) || compactRaw(content.thumbnail) || images || ''
 }
 const compactRaw = (value: unknown) => typeof value === 'string' ? value.trim() : ''
-const summaryOf = (post: SitePost) => post.summary || compactRaw(getContent(post).description) || compactRaw(getContent(post).excerpt) || ''
+const summaryOf = (post: SitePost) => stripTags(post.summary || compactRaw(getContent(post).description) || compactRaw(getContent(post).excerpt) || '')
 
 const matches = (post: SitePost, query: string, category: string, task: string) => {
   const content = getContent(post)
@@ -64,9 +67,9 @@ function SearchResultCard({ post, index }: { post: SitePost; index: number }) {
         </div>
       ) : null}
       <div className="p-5 sm:p-6">
-        {!image ? <span className="rounded-full bg-[var(--editable-page-text,#211713)] px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em] text-white">{taskLabel}</span> : null}
+        {!image ? <span className="rounded-full bg-[var(--editable-page-text,#221f2b)] px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em] text-white">{taskLabel}</span> : null}
         <h2 className="mt-4 line-clamp-3 text-2xl font-black leading-tight tracking-tight text-[var(--editable-page-text,#221f2b)]">{post.title}</h2>
-        {summary ? <p className="mt-4 line-clamp-3 text-sm font-semibold leading-7 text-[var(--editable-page-text,#211713)]/65">{summary}</p> : null}
+        {summary ? <p className="mt-4 line-clamp-3 text-sm font-semibold leading-7 text-[var(--editable-page-text,#221f2b)]/65">{summary}</p> : null}
         <span className="mt-5 inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] opacity-60 group-hover:opacity-100">Open result <ArrowRight className="h-4 w-4" /></span>
       </div>
     </Link>
@@ -87,24 +90,24 @@ export default async function SearchPage({ searchParams }: { searchParams?: Prom
 
   return (
     <EditableSiteShell>
-      <main className="min-h-screen bg-[var(--editable-page-bg,#fff7ee)] text-[var(--editable-page-text,#2f1d16)]">
+      <main className="min-h-screen bg-[var(--editable-page-bg,#fff7f5)] text-[var(--editable-page-text,#221f2b)]">
         <section className="mx-auto max-w-[var(--editable-container)] px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
-          <div className="grid gap-8 rounded-lg border border-[var(--editable-border)] bg-white p-6 shadow-[0_24px_70px_rgba(15,23,42,0.08)] md:grid-cols-[0.8fr_1.2fr] lg:p-10">
+          <div className="grid gap-8 rounded-lg border border-[var(--editable-border)] bg-white p-6 shadow-[0_24px_70px_rgba(0,0,0,0.08)] md:grid-cols-[0.8fr_1.2fr] lg:p-10">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.28em] opacity-55">{pagesContent.search.hero.badge}</p>
               <h1 className="mt-5 text-4xl font-black leading-tight tracking-tight sm:text-5xl">{pagesContent.search.hero.title}</h1>
               <p className="mt-6 max-w-xl text-base font-semibold leading-8 opacity-70">{pagesContent.search.hero.description}</p>
             </div>
-            <form action="/search" className="self-end rounded-lg border border-[var(--editable-border)] bg-[#fbfbfc] p-4 sm:p-5">
+            <form action="/search" className="self-end rounded-lg border border-[var(--editable-border)] bg-[#f7f7fa] p-4 sm:p-5">
               <input type="hidden" name="master" value="1" />
               <label className="flex items-center gap-3 rounded-lg border border-[var(--editable-border)] bg-white px-4 py-3">
                 <Search className="h-5 w-5 opacity-45" />
-                <input name="q" defaultValue={query} placeholder={pagesContent.search.hero.placeholder} className="min-w-0 flex-1 bg-transparent text-base font-bold text-[#221f2b] outline-none placeholder:text-[#777184]" />
+                <input name="q" defaultValue={query} placeholder={pagesContent.search.hero.placeholder} className="min-w-0 flex-1 bg-transparent text-base font-bold text-[#221f2b] outline-none placeholder:text-[#706b7c]" />
               </label>
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
                 <label className="flex items-center gap-2 rounded-lg border border-[var(--editable-border)] bg-white px-4 py-3">
                   <Filter className="h-4 w-4 opacity-45" />
-                  <input name="category" defaultValue={category} placeholder="Category" className="min-w-0 flex-1 bg-transparent text-sm font-bold text-[#221f2b] outline-none placeholder:text-[#777184]" />
+                  <input name="category" defaultValue={category} placeholder="Category" className="min-w-0 flex-1 bg-transparent text-sm font-bold text-[#221f2b] outline-none placeholder:text-[#706b7c]" />
                 </label>
                 <select name="task" defaultValue={task} className="rounded-lg border border-[var(--editable-border)] bg-white px-4 py-3 text-sm font-black text-[#221f2b] outline-none">
                   <option value="">All content types</option>

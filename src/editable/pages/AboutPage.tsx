@@ -7,7 +7,7 @@ export default function AboutPage() {
     <EditableSiteShell>
       <main className="bg-[var(--editable-page-bg,#fff7f5)] px-4 py-12 text-[var(--editable-page-text,#221f2b)] sm:px-6 lg:px-8">
         <section className="mx-auto grid max-w-[var(--editable-container)] gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-          <article className="rounded-lg border border-[var(--editable-border)] bg-white p-8 shadow-[0_18px_50px_rgba(15,23,42,0.06)] lg:p-12">
+          <article className="rounded-lg border border-[var(--editable-border)] bg-white p-8 shadow-[0_18px_50px_rgba(0,0,0,0.06)] lg:p-12">
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#5f35b2]">{pagesContent.about.badge}</p>
             <h1 className="mt-5 text-4xl font-black tracking-tight sm:text-5xl">About {SITE_CONFIG.name}</h1>
             <p className="mt-5 max-w-2xl text-base leading-8 opacity-70">{pagesContent.about.description}</p>
