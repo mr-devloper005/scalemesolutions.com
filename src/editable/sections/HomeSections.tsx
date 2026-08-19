@@ -33,7 +33,7 @@ function taskLabel(task: TaskKey) {
 function MiniPoster({ post, href }: { post: SitePost; href: string }) {
   return (
     <Link href={href} className={`group block w-[230px] shrink-0 ${dc.motion.fade}`}>
-      <article className="relative overflow-hidden rounded-[1.65rem] border border-black/[0.07] bg-white p-2 shadow-[0_18px_48px_rgba(47,29,22,0.10)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_58px_rgba(47,29,22,0.16)]">
+      <article className="relative overflow-hidden rounded-[1.65rem] border border-black/[0.07] bg-white p-2 shadow-[0_18px_48px_rgba(0,0,0,0.10)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_58px_rgba(0,0,0,0.16)]">
         <div className="relative aspect-[4/5] overflow-hidden rounded-[1.25rem] bg-[var(--slot4-media-bg)]">
           <img src={getEditablePostImage(post)} alt={post.title} className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,rgba(0,0,0,0.72)_100%)]" />
@@ -53,7 +53,7 @@ function FeatureTile({ post, href, index }: { post: SitePost; href: string; inde
   const style = index % 3
   if (style === 0) {
     return (
-      <Link href={href} className="group relative min-h-[360px] overflow-hidden rounded-[2rem] bg-[#24150f] p-5 text-white shadow-[0_24px_70px_rgba(47,29,22,0.18)] transition duration-300 hover:-translate-y-1">
+      <Link href={href} className="group relative min-h-[360px] overflow-hidden rounded-[2rem] bg-[#24232e] p-5 text-white shadow-[0_24px_70px_rgba(0,0,0,0.18)] transition duration-300 hover:-translate-y-1">
         <img src={getEditablePostImage(post)} alt={post.title} className="absolute inset-0 h-full w-full object-cover opacity-70 transition duration-700 group-hover:scale-105" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.05),rgba(0,0,0,0.78))]" />
         <div className="relative z-10 flex min-h-[320px] flex-col justify-end">
@@ -66,7 +66,7 @@ function FeatureTile({ post, href, index }: { post: SitePost; href: string; inde
   }
   if (style === 1) {
     return (
-      <Link href={href} className={`group grid overflow-hidden rounded-[2rem] border ${pal.border} bg-white shadow-[0_18px_54px_rgba(47,29,22,0.10)] transition duration-300 hover:-translate-y-1 md:grid-cols-[0.82fr_1fr]`}>
+      <Link href={href} className={`group grid overflow-hidden rounded-[2rem] border ${pal.border} bg-white shadow-[0_18px_54px_rgba(0,0,0,0.10)] transition duration-300 hover:-translate-y-1 md:grid-cols-[0.82fr_1fr]`}>
         <div className="relative min-h-[190px] bg-[var(--slot4-media-bg)]">
           <img src={getEditablePostImage(post)} alt={post.title} className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" />
         </div>
@@ -79,7 +79,7 @@ function FeatureTile({ post, href, index }: { post: SitePost; href: string; inde
     )
   }
   return (
-    <Link href={href} className={`group relative overflow-hidden rounded-[2rem] border ${pal.border} bg-[var(--slot4-accent-soft)] p-6 shadow-[0_18px_54px_rgba(47,29,22,0.08)] transition duration-300 hover:-translate-y-1`}>
+    <Link href={href} className={`group relative overflow-hidden rounded-[2rem] border ${pal.border} bg-[var(--slot4-accent-soft)] p-6 shadow-[0_18px_54px_rgba(0,0,0,0.08)] transition duration-300 hover:-translate-y-1`}>
       <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/55" />
       <div className="relative h-24 w-24 overflow-hidden rounded-full border-4 border-white shadow-sm">
         <img src={getEditablePostImage(post)} alt={post.title} className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-110" />
@@ -93,7 +93,7 @@ function FeatureTile({ post, href, index }: { post: SitePost; href: string; inde
 
 function WideStoryCard({ post, href, index }: { post: SitePost; href: string; index: number }) {
   return (
-    <Link href={href} className={`group grid gap-4 overflow-hidden rounded-[1.75rem] border ${pal.border} bg-white p-3 shadow-[0_14px_42px_rgba(47,29,22,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_58px_rgba(47,29,22,0.14)] sm:grid-cols-[150px_minmax(0,1fr)]`}>
+    <Link href={href} className={`group grid gap-4 overflow-hidden rounded-[1.75rem] border ${pal.border} bg-white p-3 shadow-[0_14px_42px_rgba(0,0,0,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_58px_rgba(0,0,0,0.14)] sm:grid-cols-[150px_minmax(0,1fr)]`}>
       <div className="relative aspect-[5/4] overflow-hidden rounded-[1.25rem] bg-[var(--slot4-media-bg)] sm:aspect-square">
         <img src={getEditablePostImage(post)} alt={post.title} className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" />
         <span className="absolute bottom-3 left-3 rounded-full bg-black/72 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-white backdrop-blur">
@@ -111,7 +111,7 @@ function WideStoryCard({ post, href, index }: { post: SitePost; href: string; in
 
 function IndexPill({ post, href, index }: { post: SitePost; href: string; index: number }) {
   return (
-    <Link href={href} className={`group relative overflow-hidden rounded-[1.55rem] border ${pal.border} bg-white p-5 shadow-[0_12px_34px_rgba(47,29,22,0.07)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_48px_rgba(47,29,22,0.13)]`}>
+    <Link href={href} className={`group relative overflow-hidden rounded-[1.55rem] border ${pal.border} bg-white p-5 shadow-[0_12px_34px_rgba(0,0,0,0.07)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_48px_rgba(0,0,0,0.13)]`}>
       <span className="absolute -right-6 -top-6 h-20 w-20 rounded-full bg-[var(--slot4-accent-soft)] opacity-70 transition group-hover:scale-125" />
       <p className={`relative text-[11px] font-black uppercase tracking-[0.26em] ${pal.accentText}`}>No. {String(index + 1).padStart(2, '0')}</p>
       <h3 className="relative mt-3 line-clamp-3 text-xl font-black leading-tight tracking-[-0.04em] text-[var(--slot4-page-text)]">{post.title}</h3>
@@ -140,9 +140,9 @@ export function EditableHomeHero({ primaryTask, primaryRoute }: HomeSectionProps
           <p className={`${dc.type.eyebrow} ${pal.accentText}`}>{pagesContent.home.hero.badge}</p>
           <h1 className="mt-5 text-5xl font-black leading-[1.02] tracking-tight text-[var(--slot4-page-text)] sm:text-6xl lg:text-7xl">{heroTitle}</h1>
           <p className={`mx-auto mt-6 max-w-2xl text-base leading-8 ${pal.mutedText} sm:text-lg`}>{pagesContent.home.hero.description}</p>
-          <form action="/search" className="mx-auto mt-8 flex max-w-3xl items-center rounded-full border border-black/15 bg-white p-2 shadow-[0_16px_50px_rgba(36,35,46,0.08)]">
-            <input name="q" type="search" placeholder={pagesContent.home.hero.searchPlaceholder} className="min-w-0 flex-1 bg-transparent px-5 py-3 text-base font-semibold text-[#221f2b] outline-none placeholder:text-[#777184]" />
-            <button className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#f4f4f7] text-[#221f2b]" aria-label="Search businesses"><Search className="h-5 w-5" /></button>
+          <form action="/search" className="mx-auto mt-8 flex max-w-3xl items-center rounded-full border border-black/15 bg-white p-2 shadow-[0_16px_50px_rgba(0,0,0,0.08)]">
+            <input name="q" type="search" placeholder={pagesContent.home.hero.searchPlaceholder} className="min-w-0 flex-1 bg-transparent px-5 py-3 text-base font-semibold text-[#221f2b] outline-none placeholder:text-[#706b7c]" />
+            <button className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#f7f7fa] text-[#221f2b]" aria-label="Search businesses"><Search className="h-5 w-5" /></button>
           </form>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link href={primaryRoute} className="inline-flex items-center gap-2 rounded-full bg-[#5f35b2] px-6 py-3 text-sm font-black text-white">Browse listings <ArrowRight className="h-4 w-4" /></Link>
@@ -170,7 +170,7 @@ export function EditableStoryRail({ primaryTask, primaryRoute, posts }: HomeSect
       <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="flex items-end justify-between gap-4">
           <h2 className={dc.type.sectionTitle}>Popular business listings</h2>
-          <Link href={primaryRoute} className="hidden text-sm font-semibold text-[#006d6d] hover:underline sm:inline">See all</Link>
+          <Link href={primaryRoute} className="hidden text-sm font-semibold text-[#11c5b7] hover:underline sm:inline">See all</Link>
         </div>
         <Rail className="mt-8">
           {railPosts.map((post) => <MiniPoster key={post.id} post={post} href={postHref(primaryTask, post, primaryRoute)} />)}
@@ -186,7 +186,7 @@ export function EditableMagazineSplit({ primaryTask, primaryRoute, posts }: Home
   return (
     <section className={`${pal.lavenderBg} relative overflow-hidden`}>
       <div className="pointer-events-none absolute -left-20 top-8 h-40 w-40 rounded-full bg-white/40 blur-2xl" />
-      <div className="pointer-events-none absolute -right-16 bottom-4 h-48 w-48 rounded-full bg-indigo-200/50 blur-3xl" />
+      <div className="pointer-events-none absolute -right-16 bottom-4 h-48 w-48 rounded-full bg-[#ebe5ff]/50 blur-3xl" />
       <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <h2 className="text-center text-3xl font-extrabold tracking-tight sm:text-4xl">Top categories and featured companies</h2>
         <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">

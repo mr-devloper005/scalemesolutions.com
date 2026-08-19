@@ -45,11 +45,11 @@ export function EditableContactLeadForm() {
       </div>
       <label className="mt-4 grid gap-2 text-sm font-black text-[#221f2b]">
         Message
-        <textarea name="message" required rows={6} placeholder="Tell us about the business listing, profile update, or category support you need..." className="rounded-lg border border-[var(--editable-border)] bg-white px-4 py-3 text-base font-medium text-[#221f2b] outline-none transition placeholder:text-[#777184] focus:border-[#5f35b2] focus:ring-4 focus:ring-[#5f35b2]/10" />
+        <textarea name="message" required rows={6} placeholder="Tell us about the business listing, profile update, or category support you need..." className="rounded-lg border border-[var(--editable-border)] bg-white px-4 py-3 text-base font-medium text-[#221f2b] outline-none transition placeholder:text-[#706b7c] focus:border-[#5f35b2] focus:ring-4 focus:ring-[#5f35b2]/10" />
       </label>
       <input name="company" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
       {message ? (
-        <div className={`mt-5 flex items-start gap-3 rounded-2xl px-4 py-3 text-sm font-bold ${status === 'success' ? 'bg-emerald-50 text-emerald-800' : 'bg-red-50 text-red-700'}`}>
+        <div className={`mt-5 flex items-start gap-3 rounded-2xl px-4 py-3 text-sm font-bold ${status === 'success' ? 'bg-[#ebe5ff] text-[#5f35b2]' : 'bg-[#fff7f5] text-[#ff4b36]'}`}>
           {status === 'success' ? <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /> : null}
           <span>{message}</span>
         </div>
@@ -66,7 +66,7 @@ function Field({ name, label, type = 'text', placeholder, required = false }: { 
   return (
     <label className="grid gap-2 text-sm font-black text-[#221f2b]">
       {label}
-      <input name={name} type={type} required={required} placeholder={placeholder} className="h-12 rounded-lg border border-[var(--editable-border)] bg-white px-4 text-base font-medium text-[#221f2b] outline-none transition placeholder:text-[#777184] focus:border-[#5f35b2] focus:ring-4 focus:ring-[#5f35b2]/10" />
+      <input name={name} type={type} required={required} placeholder={placeholder} className="h-12 rounded-lg border border-[var(--editable-border)] bg-white px-4 text-base font-medium text-[#221f2b] outline-none transition placeholder:text-[#706b7c] focus:border-[#5f35b2] focus:ring-4 focus:ring-[#5f35b2]/10" />
     </label>
   )
 }
