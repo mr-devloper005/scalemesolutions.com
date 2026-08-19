@@ -113,13 +113,13 @@ export function TaskDetailView({ task, post, related, comments = [] }: { task: T
   return (
     <EditableSiteShell>
       <main style={detailVars} className="bg-[var(--detail-bg)] text-[var(--detail-text)]">
-        {task === 'listing' ? <ListingDetail related={related} /> : null}
-        {task === 'classified' ? <ClassifiedDetail related={related} /> : null}
-        {task === 'image' ? <ImageDetail related={related} /> : null}
-        {task === 'sbm' ? <BookmarkDetail related={related} /> : null}
-        {task === 'pdf' ? <PdfDetail related={related} /> : null}
-        {task === 'profile' ? <ProfileDetail related={related} /> : null}
-        {task === 'article' ? <ArticleDetail related={related} comments={comments} /> : null}
+        {task === 'listing' ? <ListingDetail post={post} related={related} /> : null}
+        {task === 'classified' ? <ClassifiedDetail post={post} related={related} /> : null}
+        {task === 'image' ? <ImageDetail post={post} related={related} /> : null}
+        {task === 'sbm' ? <BookmarkDetail post={post} related={related} /> : null}
+        {task === 'pdf' ? <PdfDetail post={post} related={related} /> : null}
+        {task === 'profile' ? <ProfileDetail post={post} related={related} /> : null}
+        {task === 'article' ? <ArticleDetail post={post} related={related} comments={comments} /> : null}
       </main>
     </EditableSiteShell>
   )
