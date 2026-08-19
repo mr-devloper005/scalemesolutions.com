@@ -31,7 +31,7 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div className="rounded-lg border border-[var(--editable-border)] bg-white p-7 shadow-[0_18px_50px_rgba(15,23,42,0.06)]">
+          <div className="rounded-lg border border-[var(--editable-border)] bg-white p-7 shadow-[0_18px_50px_rgba(0,0,0,0.06)]">
             <h2 className="text-2xl font-semibold">{pagesContent.contact.formTitle}</h2>
             <EditableContactLeadForm />
           </div>

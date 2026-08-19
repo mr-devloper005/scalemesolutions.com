@@ -35,7 +35,11 @@ const getImages = (post: SitePost) => {
 const placeholder = '/placeholder.svg?height=900&width=1200'
 const getImage = (post: SitePost) => getImages(post)[0] || placeholder
 const getCategory = (post: SitePost, fallback: string) => asText(getContent(post).category) || post.tags?.[0] || fallback
-const getSummary = (post: SitePost) => post.summary || asText(getContent(post).description) || asText(getContent(post).excerpt) || asText(getContent(post).body)
+const stripTags = (value: string) => value
+  .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+  .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, ' ')
+  .replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+const getSummary = (post: SitePost) => stripTags(post.summary || asText(getContent(post).description) || asText(getContent(post).excerpt) || asText(getContent(post).body))
 const getField = (post: SitePost, keys: string[]) => {
   const content = getContent(post)
   for (const key of keys) {
@@ -87,18 +91,18 @@ export function TaskArchiveView({ task, posts, pagination, category, basePath }:
   const label = taskConfig?.label || task
   const deck = taskDeck[task]
   const Icon = deck.icon
-  const archiveVars = { '--archive-bg': '#fbfbfc', '--archive-text': '#221f2b', '--archive-surface': '#ffffff', '--archive-accent': '#5f35b2' } as CSSProperties
+  const archiveVars = { '--archive-bg': '#fff7f5', '--archive-text': '#221f2b', '--archive-surface': '#ffffff', '--archive-accent': '#5f35b2' } as CSSProperties
   const categoryLabel = category === 'all' ? 'All categories' : CATEGORY_OPTIONS.find((item) => item.slug === category)?.name || category
 
   return (
     <EditableSiteShell>
       <main style={archiveVars} className="bg-[var(--archive-bg)] text-[var(--archive-text)]">
         <section className="mx-auto grid max-w-[var(--editable-container)] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-14">
-          <div className="rounded-lg border border-[var(--editable-border)] bg-[var(--archive-surface)] p-7 shadow-[0_18px_50px_rgba(15,23,42,0.06)] sm:p-10">
+          <div className="rounded-lg border border-[var(--editable-border)] bg-[var(--archive-surface)] p-7 shadow-[0_18px_50px_rgba(0,0,0,0.06)] sm:p-10">
             <div className="inline-flex items-center gap-2 rounded-full border border-[var(--editable-border)] bg-white/70 px-4 py-2 text-xs font-black uppercase tracking-[0.24em] text-[var(--archive-accent)]"><Icon className="h-4 w-4" /> {label}</div>
             <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-tight sm:text-5xl">{voice?.headline || `Browse ${label}`}</h1>
             <p className="mt-6 max-w-2xl text-base leading-8 opacity-70">{voice?.description || SITE_CONFIG.description}</p>
-            <div className="mt-6 rounded-lg border border-[var(--editable-border)] bg-[#f4f0ff] p-4 text-sm font-bold leading-7 text-[#4b2a8d]">{deck.promise}</div>
+            <div className="mt-6 rounded-lg border border-[var(--editable-border)] bg-[#f4f0ff] p-4 text-sm font-bold leading-7 text-[#5f35b2]">{deck.promise}</div>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href={basePath} className="rounded-full bg-[var(--archive-text)] px-5 py-3 text-sm font-black text-[var(--archive-bg)]">Browse all</Link>
               <Link href="/search" className="rounded-full border border-[var(--editable-border)] px-5 py-3 text-sm font-black">Search businesses</Link>
@@ -175,7 +179,7 @@ function ListingArchiveCard({ post, href }: { post: SitePost; href: string }) {
   const phone = getField(post, ['phone', 'telephone', 'mobile'])
   const website = getField(post, ['website', 'url'])
   return (
-    <Link href={href} className="group grid gap-5 rounded-lg border border-[var(--editable-border)] bg-white p-5 shadow-[0_12px_36px_rgba(15,23,42,0.07)] transition hover:-translate-y-1 hover:shadow-xl sm:grid-cols-[128px_1fr]">
+    <Link href={href} className="group grid gap-5 rounded-lg border border-[var(--editable-border)] bg-white p-5 shadow-[0_12px_36px_rgba(0,0,0,0.07)] transition hover:-translate-y-1 hover:shadow-xl sm:grid-cols-[128px_1fr]">
       <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-md bg-[#f7f7fa] ring-1 ring-[var(--editable-border)]">
         {logo ? <img src={logo} alt="" className="h-full w-full object-cover" /> : <BriefcaseBusiness className="h-10 w-10 opacity-45" />}
       </div>

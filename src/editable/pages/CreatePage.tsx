@@ -32,7 +32,7 @@ const taskIcon: Record<string, typeof FileText> = {
   sbm: ArrowRight,
 }
 
-const fieldClass = 'rounded-lg border border-[var(--editable-border)] bg-white px-4 py-3 text-sm font-bold text-[#221f2b] outline-none transition placeholder:text-[#777184] focus:border-[#5f35b2] focus:ring-4 focus:ring-[#5f35b2]/10'
+const fieldClass = 'rounded-lg border border-[var(--editable-border)] bg-white px-4 py-3 text-sm font-bold text-[#221f2b] outline-none transition placeholder:text-[#706b7c] focus:border-[#5f35b2] focus:ring-4 focus:ring-[#5f35b2]/10'
 
 const saveDraft = (draft: DraftPost) => {
   try {
@@ -85,7 +85,7 @@ export default function CreatePage() {
     return (
       <EditableSiteShell>
         <main className="min-h-screen bg-[var(--editable-page-bg,#fff7f5)] px-4 py-16 text-[var(--editable-page-text,#221f2b)] sm:px-6 lg:px-8">
-          <section className="mx-auto grid max-w-5xl gap-8 rounded-lg border border-[var(--editable-border)] bg-white p-7 shadow-[0_24px_70px_rgba(15,23,42,0.08)] md:grid-cols-[0.9fr_1.1fr] md:p-10">
+          <section className="mx-auto grid max-w-5xl gap-8 rounded-lg border border-[var(--editable-border)] bg-white p-7 shadow-[0_24px_70px_rgba(0,0,0,0.08)] md:grid-cols-[0.9fr_1.1fr] md:p-10">
             <div className="flex h-full min-h-72 items-center justify-center rounded-lg bg-[#24232e] text-white">
               <Lock className="h-20 w-20 opacity-80" />
             </div>
@@ -106,9 +106,9 @@ export default function CreatePage() {
 
   return (
     <EditableSiteShell>
-      <main className="min-h-screen bg-[var(--editable-page-bg,#fff7ee)] text-[var(--editable-page-text,#2f1d16)]">
+      <main className="min-h-screen bg-[var(--editable-page-bg,#fff7f5)] text-[var(--editable-page-text,#221f2b)]">
         <section className="mx-auto max-w-[var(--editable-container)] px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
-          <div className="grid gap-8 rounded-lg border border-[var(--editable-border)] bg-white p-6 shadow-[0_24px_70px_rgba(15,23,42,0.08)] lg:grid-cols-[0.85fr_1.15fr] lg:p-10">
+          <div className="grid gap-8 rounded-lg border border-[var(--editable-border)] bg-white p-6 shadow-[0_24px_70px_rgba(0,0,0,0.08)] lg:grid-cols-[0.85fr_1.15fr] lg:p-10">
             <aside>
               <p className="text-xs font-black uppercase tracking-[0.28em] opacity-55">{pagesContent.create.hero.badge}</p>
               <h1 className="mt-5 text-4xl font-black leading-tight tracking-tight sm:text-5xl">{pagesContent.create.hero.title}</h1>
@@ -128,7 +128,7 @@ export default function CreatePage() {
               </div>
             </aside>
 
-            <form onSubmit={submit} className="rounded-lg border border-[var(--editable-border)] bg-[#fbfbfc] p-5 sm:p-7">
+            <form onSubmit={submit} className="rounded-lg border border-[var(--editable-border)] bg-[#f7f7fa] p-5 sm:p-7">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.22em] opacity-50">Create {activeTask?.label || 'post'}</p>
@@ -149,7 +149,7 @@ export default function CreatePage() {
               </div>
 
               {created ? (
-                <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-900">
+                <div className="mt-5 rounded-2xl border border-[#11c5b7]/25 bg-[#11c5b7]/10 p-4 text-[#221f2b]">
                   <p className="flex items-center gap-2 text-sm font-black"><CheckCircle2 className="h-5 w-5" /> {pagesContent.create.successTitle}</p>
                   <p className="mt-1 text-sm font-semibold opacity-80">{created.title}</p>
                 </div>
