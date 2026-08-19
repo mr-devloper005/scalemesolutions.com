@@ -24,7 +24,7 @@ export async function EditableTaskDetailRoute({ task, params }: { task: TaskKey;
   if (!post) notFound()
   const related = (await fetchTaskPosts(task, 7)).filter((item) => item.slug !== post.slug).slice(0, 4)
   const comments = task === 'article' ? await fetchArticleComments(post.slug, 50) : []
-  return <TaskDetailView task={task} related={related} comments={comments} />
+  return <TaskDetailView task={task} post={post} related={related} comments={comments} />
 }
 
 const getContent = (post: SitePost) => post.content && typeof post.content === 'object' ? post.content as Record<string, unknown> : {}
